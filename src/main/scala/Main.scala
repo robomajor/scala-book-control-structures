@@ -34,7 +34,7 @@ object Main extends App {
 
   for (p <- people) println(p.printFullName())
   //or
-  people.foreach { case person => println(s"Look who's commin' -  ${person.printFullName()}") }
+  people.foreach(person => println(s"Look who's commin' -  ${person.printFullName()}"))
 
   val ratings = Map(
     "Lady in the Water"  -> 3.0,
@@ -70,7 +70,7 @@ object Main extends App {
   capNames.foreach(println)
 
   val i = Random.nextInt(13)
-  val monthName = i match {
+  val monthName: Unit = i match {
     case 1  => println("January")
     case 2  => println("February")
     case 3  => println("March")
@@ -83,9 +83,66 @@ object Main extends App {
     case 10 => println("October")
     case 11 => println("November")
     case 12 => println("December")
-    // catch the default with a variable so you can print it
-    case _  => println("Invalid month")
+    case _  => println("Invalid month")     // catch the default with a variable so you can print it
   }
+
+  //Scala methods
+  def convertBooleanToStringMessage(bool: Boolean): String = {
+    if (bool) "true" else "false"
+  }
+  var answer = convertBooleanToStringMessage(true)
+  println(answer)
+  answer = convertBooleanToStringMessage(false)
+  println(answer)
+
+  //Using a match expression as the body of a method
+  def convertBooleanToStringMessage2(bool: Boolean): String = bool match {
+    case true => "you said true"
+    case false => "you said false"
+  }
+
+  answer = convertBooleanToStringMessage2(true)
+  println(answer)
+  answer = convertBooleanToStringMessage2(false)
+  println(answer)
+
+  //Handling alternate cases
+  def isTrue(a: Any) = a match {
+    case 0 | "" => false
+    case _ => true
+  }
+
+  println(isTrue(0))
+  println(isTrue(""))
+  println(isTrue(1.1F))
+
+  //how to handle multiple strings in multiple case statements:
+  def takeStringReturnMoreText(str: String): Unit = str match {
+    case "start" | "go" => println("starting")
+    case "stop" | "quit" | "exit" => println("stopping")
+    case _ => println("doing nothing")
+  }
+
+  takeStringReturnMoreText("start")
+  takeStringReturnMoreText("exit")
+
+  def count(x: Any): Unit = x match {
+    case 1 => println("one, a lonely number")
+    case x if x == 2 || x == 3 => println("two's company, three's a crowd")
+   // case x if x > 3 => println("4+, that's a party")
+    case _ => println("i'm guessing your number is zero or less")
+  }
+
+  count(5)
+
+  def guessNumber(x: Int): Unit = x match {
+    case a if 0 to 9 contains a => println("0-9 range: " + a)
+    case b if 10 to 19 contains b => println("10-19 range: " + b)
+    case c if 20 to 29 contains c => println("20-29 range: " + c)
+    case _ => println("Hmmm...")
+  }
+
+  guessNumber(Random.nextInt(40))
 
 }
 
