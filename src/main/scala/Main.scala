@@ -22,8 +22,10 @@ object Main extends App {
   val b = Random.nextInt(500)
   println(s"smallest number out of randomized two is ${if (a < b) a else b} (a = $a, b = $b)")
 
+  println()
+
   val nums = Seq(1,2,3)
-  for (n <- nums) println(n)
+  for (n <- nums) print(n + ' ')
 
   val people = List(
     new Person("Bill","One", "child molester"),
@@ -42,7 +44,7 @@ object Main extends App {
     "You, Me and Dupree" -> 3.5
   )
 
-  for ((name,rating) <- ratings) println(s"Movie: $name, Rating: $rating")
+  for ((name,rating) <- ratings) println(s"Movie: $name is rated: $rating")
   //or
   ratings.foreach { case(movie, rating) => println(s"key: $movie, value: $rating") }
 
@@ -90,10 +92,8 @@ object Main extends App {
   def convertBooleanToStringMessage(bool: Boolean): String = {
     if (bool) "true" else "false"
   }
-  var answer = convertBooleanToStringMessage(true)
-  println(answer)
-  answer = convertBooleanToStringMessage(false)
-  println(answer)
+  println(convertBooleanToStringMessage(true))
+  println(convertBooleanToStringMessage(false))
 
   //Using a match expression as the body of a method
   def convertBooleanToStringMessage2(bool: Boolean): String = bool match {
@@ -101,10 +101,8 @@ object Main extends App {
     case false => "you said false"
   }
 
-  answer = convertBooleanToStringMessage2(true)
-  println(answer)
-  answer = convertBooleanToStringMessage2(false)
-  println(answer)
+  println(convertBooleanToStringMessage2(true))
+  println(convertBooleanToStringMessage2(false))
 
   //Handling alternate cases
   def isTrue(a: Any) = a match {
@@ -129,7 +127,7 @@ object Main extends App {
   def count(x: Any): Unit = x match {
     case 1 => println("one, a lonely number")
     case x if x == 2 || x == 3 => println("two's company, three's a crowd")
-   // case x if x > 3 => println("4+, that's a party")
+//    case x if 3 < x => println("4+, that's a party")
     case _ => println("i'm guessing your number is zero or less")
   }
 
@@ -144,7 +142,23 @@ object Main extends App {
 
   guessNumber(Random.nextInt(40))
 
+  def morningAtTheWallStreet(x: Stock) :Unit = x match {
+    case x if x.symbol == "OIL" && x.price < 20 => buy(x)
+    case x if x.symbol == "OIL" && x.price > 50 => sell(x)
+    case x => doNothing(x)
+  }
+
+  def buy(stock: Stock) :Unit = println(s"${stock.symbol} is cheap, lets buy it at the price ${stock.price}")
+  def sell(stock: Stock) :Unit = println(s"${stock.symbol} is expensive, lets sell it at the price ${stock.price}")
+  def doNothing(stock: Stock) :Unit = println(s"${stock.symbol} price is shiet, price is ${stock.price} lets just wait")
+
+  morningAtTheWallStreet(new Stock("OIL", 15))
+  morningAtTheWallStreet(new Stock("OIL", 45))
+  morningAtTheWallStreet(new Stock("OIL", 75))
+
 }
+
+class Stock(var symbol: String, var price: Int)
 
 class Person(var firstName: String, var lastName: String, var job: String) {
   def printFullName(): Unit = println(s"it's a $firstName $lastName, a local $job")
